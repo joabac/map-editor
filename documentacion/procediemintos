@@ -1,0 +1,18 @@
+crear tablas con postgis
+
+Select AddGeometryColumn ('public','puntos','the_geom',22185,'POINT',2);
+
+Select AddGeometryColumn ('public','poligonos','the_geom',22185,'POLYGON',2);
+
+Select AddGeometryColumn ('public','segmentos','the_geom',22185,'LINESTRING',2);
+
+
+
+//consultar servicio wfs 
+
+
+http://192.168.0.101/geoserver/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=DescribeFeatureType&VERSION=1.1.0&TypeName=puntos
+
+
+
+

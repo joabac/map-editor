@@ -1,0 +1,454 @@
+ /* General settings */
+body {
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: small;
+}
+/* Toolbar styles */
+#toolbar {
+    position: relative;
+    padding-bottom: 0.5em;
+    display:block;
+}
+
+#toolbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#toolbar ul li {
+    float: left;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+}
+
+#toolbar ul li a {
+    font-weight: bold;
+    font-size: smaller;
+    vertical-align: middle;
+    color: black;
+    text-decoration: none;
+}
+
+#toolbar ul li a:hover {
+    text-decoration: underline;
+}
+
+#toolbar ul li * {
+    vertical-align: middle;
+}
+
+/* The map and the location bar */
+#map {
+    clear: both;
+    position: relative;
+    width: 750px;
+    height: 500px;
+    border: 1px solid black;
+}
+
+#wrapper {
+    width: 278px;
+}
+
+#location {
+    float: right;
+}
+
+#options {
+    position: absolute;
+    left: 13px;
+    top: 7px;
+    z-index: 3000;
+}
+
+#header {
+    background: #7F99BE url(/map_viewer/img/layout-browser-hd-bg.gif) repeat-x center;
+}
+#header h1 {
+    font-size: 16px;
+    color: #fff;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+
+/* Styles used by the default GetFeatureInfo output, added to make IE happy */
+table.featureInfo, table.featureInfo td, table.featureInfo th {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    font-size: 90%;
+    padding: .2em .1em;
+}
+
+table.featureInfo th {
+    padding: .2em .2em;
+    font-weight: bold;
+    background: #eee;
+}
+
+table.featureInfo td {
+    background: #fff;
+}
+
+table.featureInfo tr.odd td {
+    background: #eee;
+}
+
+table.featureInfo caption {
+    text-align: left;
+    font-size: 100%;
+    font-weight: bold;
+    padding: .2em .2em;
+}
+            
+.desc
+{
+    position: fixed;
+    padding-left: 3px;
+    padding-top:  2px; 
+}
+
+.info
+{
+    position: absolute;
+    padding-left: 3px;
+    padding-top:  2px;
+}
+			
+.close {
+    background-image: url(../ext-3.4.0/resources/images/gray/qtip/close.gif) !important;
+    background-repeat: no-repeat !important;
+}   
+
+.config { 
+    background-image: url(../ext-3.4.0/resources/images/gray/icons.png) !important;
+	background-repeat: no-repeat !important;
+	z-index: 5;
+	background-position: 0 -160px !important;
+} 
+
+.fondo
+{
+	background-color: #e1e1e1;
+}
+
+#logo
+{
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+#separador
+{
+	
+}
+
+.config_panel
+{
+    background-color:#CED9E7
+}
+
+.select_usuarios
+{
+    padding-left: 5px;
+    float:left;
+    width:100%;
+}
+#usuarios
+{   
+   width:200px;
+   text-align: left;  
+}
+#infoCapas
+{
+    float:left;
+    width:500px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin-top:20px;
+    
+}
+#infoCapas td label
+{
+    width: 170px;
+}
+
+//#infoCapas td span
+//{
+//    width: 200px;
+//}
+
+/* estilo para select menu*/
+#numZoomLevels
+{
+    width: 178px;
+}
+#feature_type 
+{
+    border-color: transparent;
+}
+#feature_type select
+{
+    width: 200px;
+    height: 18px;
+}
+
+#left-lista-capas
+{
+    float:left;
+    width:300px;
+    padding:10px;
+}
+
+#left-lista-capas ul
+{
+    border:1px solid #999999;
+    background-color:#eee;
+    width:300px;
+    height:300px;
+    overflow: auto;
+    float:left;
+    margin:0px;
+    padding:0px;
+}
+
+#left-lista-capas ul li
+{
+     background-color:#CCCCCC;
+    border-bottom:1px solid #999999;
+    float:left;
+    width:98%;
+    padding-left:10px;
+    list-style:none;
+    cursor:pointer;  
+}
+
+#left-lista-capas ul li:hover {
+    background-color:#999999;
+}
+.selected {
+    background-color:#8C8C8C !important ; 
+}
+
+.enEdicion {
+    background-color:#FFB740 !important; 
+}
+
+#multiselect {
+    float:left;
+    width:800px;
+
+}
+
+#multiselect .left {
+    float:left;
+    width:350px;
+    padding:10px;
+}
+
+#multiselect .right {
+    float:right;
+    width:350px;
+    padding:10px;
+}
+
+#multiselect ul {
+    border:1px solid #999999;
+    background-color:#eee;
+    width:320px;
+    height:300px;
+    overflow: auto;
+    float:left;
+    margin:0px;
+    padding:0px;
+}
+
+#multiselect ul li {
+    background-color:#CCCCCC;
+    border-bottom:1px solid #999999;
+    float:left;
+    width:98%;
+    padding-left:10px;
+    list-style:none;
+    cursor:pointer;
+}
+
+#multiselect ul li input{
+    margin-right: 50px;
+    text-align: left;
+    float: right;
+    text-indent: -100 em;
+}
+
+#multiselect ul li:hover {
+    background-color:#999999;
+}
+
+.barra_botones_right
+{
+    float:right;
+    padding-right:5%;
+    padding-top: 5px;
+    padding-bottom:5px;
+    padding-left: 10px;
+    text-align: right;
+    
+}
+
+.barra_botones_left
+{
+    float:left;
+    padding-right:5px;
+    padding-top: 5px;
+    padding-bottom:5px;
+    text-align: left;
+}
+
+.regla
+{
+    padding: 2px;
+}
+
+.ui-pnotify .picon {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 17px;
+    height: 17px;
+}
+
+.cargando {
+    background-image: url("/map_viewer/img/carga.gif");
+}
+
+.contextMenuEdit
+{
+   background-image: url("/map_viewer/img/toolbar/edit.ico");
+   background-repeat: no-repeat;
+}
+
+.contextMenuEstilo
+{
+    background-image: url("/map_viewer/img/toolbar/style.ico");
+    background-repeat: no-repeat;
+}
+
+.toolbarMenuMideSegmento
+{
+    background-image: url("/map_viewer/img/toolbar/regla.png");
+    background-repeat: no-repeat;
+    background-size: 30px 30px!important; 
+    width:35px!important;
+    height:35px!important;
+}
+
+.toolbarMenuMideArea{
+    background-image: url("/map_viewer/img/toolbar/regla_area.png");
+    background-repeat: no-repeat;
+    background-size: 30px 30px!important;    
+    width:35px!important;
+    height:35px!important;
+
+}
+.toolbarMenuGrabar
+{
+    background-image: url("/map_viewer/img/toolbar/save.ico");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+}
+
+/***********  menu punto  */
+.toolbarMenuDibujaPunto
+{
+    background-image: url("/map_viewer/img/toolbar/multipoint_add.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important; 
+}
+
+.toolbarMenuEditaPunto
+{
+    background-image: url("/map_viewer/img/toolbar/multipoint_edit.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+
+.toolbarMenuEliminaPunto
+{
+    background-image: url("/map_viewer/img/toolbar/multipoint_remove.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+
+
+.toolbarMenuDibujaLinea
+{
+    background-image: url("/map_viewer/img/toolbar/polyline_add.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+
+.toolbarMenuEliminaLinea
+{
+    background-image: url("/map_viewer/img/toolbar/polyline_remove.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+
+.toolbarMenuEditaLinea
+{
+    background-image: url("/map_viewer/img/toolbar/polyline_edit.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+
+.toolbarMenuDibujaPoligono
+{
+    background-image: url("/map_viewer/img/toolbar/polygon_add.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+.toolbarMenuEliminaPoligono
+{
+    background-image: url("/map_viewer/img/toolbar/polygon_remove.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+.toolbarMenuEditaPoligono
+{
+    background-image: url("/map_viewer/img/toolbar/polygon_edit.png");
+    background-repeat: no-repeat;
+    width:35px!important;
+    height:35px!important;
+
+}
+
+.toolbarMenuGetBounds
+{
+    background-image: url("/map_viewer/img/toolbar/kruler.png");
+    background-repeat: no-repeat;
+    background-size: 30px 30px!important; 
+    width:35px!important;
+    height:35px!important;
+}
+
+/* This imageless css button was generated by CSSButtonGenerator.com */

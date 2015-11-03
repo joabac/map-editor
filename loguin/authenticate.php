@@ -49,13 +49,13 @@ try{
     } 
     else
     {
-          $mensaje = 'Error en coneccion a DB';
+          $mensaje = 'Error en conexión a DB';
           return false;
     }
     }
     catch(Exception $e)
     {
-        $mensaje = 'Error en coneccion a DB';
+        $mensaje = 'Error en conexión a DB';
         return false;
     }
 }
@@ -70,7 +70,7 @@ try{
       $result = authenticateOnDb($_SESSION['challenge'],$_REQUEST['response'],$_REQUEST['username'],$mensaje);
       if($result){
         $_SESSION['authenticated'] = "yes";
-        $_SESSION['username'] = $_REQUEST['username'];;
+        $_SESSION['username'] = $_REQUEST['username'];
         unset($_SESSION['challenge']);
         
       } else {

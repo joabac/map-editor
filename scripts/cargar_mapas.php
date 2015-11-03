@@ -128,8 +128,8 @@ function config_tabs($email)
                      visibility : '.$row[8].',
                      protocolo : "'.$protocolo.'",
                      nivel_de_arbol: "'.$row[9].'",
-                     estilo_wms: "'.$row[10].'"}
-                     ';
+                     estilo_wms: "'.$row[10].'",
+                     id_capa: "'.$id_capa.'"}';
                      return $capa_wms;
                 }
            }
@@ -157,7 +157,7 @@ function config_tabs($email)
         {
            //"Connection attempt succeeded.";
 
-           $query = 'SELECT nombre_fantasia,url, nombre_capa, version_wfs, transparent , "singleTile","isBaseLayer", "numZoomLevels", visibility,nivel_de_arbol,estilo_wfs,select_control,type FROM atributos_por_capa WHERE id_capa = '.$id_capa.';'; 
+           $query = 'SELECT nombre_fantasia,url, nombre_capa, version_wfs, transparent , "singleTile","isBaseLayer", "numZoomLevels", visibility,nivel_de_arbol,estilo_wfs,select_control,"featureNS" FROM atributos_por_capa WHERE id_capa = '.$id_capa.';'; 
            $result = pg_query($db_handle,$query); 
            if($result){
             
@@ -177,8 +177,9 @@ function config_tabs($email)
                      nivel_de_arbol: "'.$row[9].'",
                      estilo_wfs: "'.$row[10].'",
                      select_control: '.$row[11].',
-                     geometryType:"'.$row[12].'"}
-                     ';
+                     featureNS:"'.$row[12].'",
+                     id_capa: "'.$id_capa.'"}';
+
                      return $capa_wfs;
                 }
            }

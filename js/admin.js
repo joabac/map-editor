@@ -1,6 +1,11 @@
+/*! 
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
 var closeItem;
 var capaNueva = false;
-var tipoCapa = "WMS";
 
 Ext.onReady(function() {
 
@@ -31,7 +36,7 @@ Ext.onReady(function() {
                        mainItem: 0,
                        items: [ 
                        {
-                            title: 'Administraci髇',
+                            title: 'Administraci贸n',
                             tabTip: 'Configuracion de usuarios',
                             style: 'padding: 10px;'
     			},{
@@ -57,7 +62,7 @@ Ext.onReady(function() {
                         mainItem: 0,
                             items: [ 
                             {
-                                 title: 'Administraci髇',
+                                 title: 'Administraci贸n',
                                  tabTip: 'Utiles',
                                  style: 'padding: 10px;'
                              },
@@ -107,7 +112,7 @@ function activaUsuarioCapas()
         $.ajax({
             type: "POST",
             url: "../scripts/utiles.php",
-            //contentType: "application/json; charset=utf-8",
+            
             dataType: "json",
             success: function(msg) {
                 $("#usuarios").get(0).options.length = 0;
@@ -198,42 +203,15 @@ function activaUsuarioCapas()
         $( "#guarda_capa" ).button('disable');
         $( "#abmCapas #del_capa" ).button('disable');
         
-    // checkbox wfs_layer_check eventos
-        $( "#abmCapas #wfs_layer_check" ).change(function() {
-            var estado_check = $(this).is(':checked');
-            if ( estado_check === true)
-            {
-                tipoCapa = "";
-                $('#estilo_wms').attr("disabled","disabled");
-                $('#version_wms').attr("disabled","disabled");
-                 
-                $('#estilo_wfs').removeAttr("disabled");
-                $('#version_wfs').removeAttr("disabled");
-                //$('#tipo_wfs').selectmenu("enable");
-            }
-            else
-            {
-                tipoCapa = "WMS";
-                $('#estilo_wms').removeAttr("disabled");
-                $('#version_wms').removeAttr("disabled");
-                
-                $('#estilo_wfs').attr("disabled","disabled");
-                $('#version_wfs').attr("disabled","disabled");
-//                    // Destroy the combobox
-//                    $("#tipo_wfs").selectmenu("destroy");
-//
-//                    // Unselect the currently selected option
-//                    $("#tipo_wfs option:selected").removeAttr("selected");
-//
-//                    // Select the option you want to select
-//                    $("#tipo_wfs option[value='WMS']").attr("selected", "selected");
-//
-//                    // Create the combobox again
-//                    $("#tipo_wfs").selectmenu();
-//                    
-//                    $('#tipo_wfs').selectmenu("disable");
-
-            }
+    // boton interno para test de capas
+        $( "#abmCapas #btnTest_Capa" )
+        .button({
+                icons: {
+                primary: "ui-icon-search"
+                }
+         })
+        .click(function( event ) {
+            event.preventDefault();
         });
         
         //oculto el panel de capas
@@ -275,7 +253,7 @@ function activaUsuarioCapas()
             {
                 $( "#abmCapas #del_capa" ).button('disable');
                 mensaje_cargando[0].remove();
-                mensajeInformativo("Aletnci髇", "No se encontraron capas pre cargadas");
+                mensajeInformativo("Aletnci贸n", "No se encontraron capas pre cargadas");
             }
             
             },
@@ -285,10 +263,6 @@ function activaUsuarioCapas()
             },
             data: parametros
         });
-        
-        
-        $('#estilo_wfs').attr("disabled","disabled");
-        $('#version_wfs').attr("disabled","disabled");
     }
     
     function desactivaAbmCapas()
@@ -419,10 +393,11 @@ function loadInfoCapa(id)
                         $('#select_control').attr('checked', false);
                     }
                     
-                    //TODO
-                    if($('#version_wfs').val() != ""){
-                        $('#wfs_layer_check').prop('checked', true);
-                    }
+                    
+                    $('#tipo_wfs option').removeAttr('selected');
+                    $('#tipo_wfs option[value="'+msg[0].type+'"]').attr('selected', 'selected');
+                    $('#tipo_wfs').selectmenu('refresh');
+                    $('#tipo_wfs').selectmenu({ disabled: true });
                     
                     $( "#editar_capa" ).button('enable');
                     mensaje_cargando[0].remove();
@@ -551,29 +526,23 @@ function guardarCapas()
                 minlength: 4
             },
             version_wms:{
-                required: {       
-                      depends: function(element) {
-                        return $("#wfs_layer_check:unchecked");
-                      }
-                },
+                required: true,
                 maxlength: 8,
                 minlength: 5
             },
             version_wfs:{
-                required: {       
-                      depends: function(element) {
-                        return $("#wfs_layer_check:checked");
-                      }
-                    },
-                //required: true,
+                required: true,
                 maxlength: 8,
                 minlength: 5
             },
             estilo_wfs:{
                 maxlength: 200,
                 minlength: 4
+            },
+            tipo_wfs:
+            {
+                required: true
             }
-            
         },
         messages: {
             nombre_capa: {
@@ -615,31 +584,44 @@ function guardarCapas()
             estilo_wfs:{
                 maxlength:"Nombre superior a 200 caracteres",
                 minlength:"Longitud minima 4 caracteres"
+            },
+            tipo_wfs:
+            {
+                required: "Por favor indique el tipo de capa WFS",
             }
         }
       }); 
       
       if(form.valid())
       {
-         if($("#wfs_layer_check").is(':checked')  === true){
-            var tipo_geometria = getTipoGeometria($('#nombre_capa').val());
-
-            var tipo_geometria_upper = tipo_geometria.toUpperCase();
-
-            if(tipo_geometria_upper != "POLYGON" && tipo_geometria_upper != "LINESTRING" && tipo_geometria_upper === "POINT")
-            {
-                $.pnotify_remove_all();
-                mensajeAtencion("Atenc韔n!", "La capa no se reconoce como una capa WFS valida");
-                return;
-            }
-        }
-        else
-        {
-            tipo_geometria_upper = "WMS";
-            
-        }
-         
-         if(capaNueva === false) //solo una edicion
+        var format = new OpenLayers.Format.XML();
+        var doc = null;
+        var loadStatus = false;
+        var attributeNode = null;
+//        //******************** validacion de capa y tipo
+//        var uri = $("#url").val() + '?SERVICE=WFS&VERSION=' + $("#version_wfs").val() + '&REQUEST=DescribeFeatureType&TypeName=' + $("#nombre_capa").val();
+//        OpenLayers.Request.GET({
+//                url: uri,
+//                success: function (request){
+//                    if(!request.responseXML.documentElement) {
+//                        doc = format.read(request.responseText);
+//                    } 
+//                    else {
+//                        doc = request.responseXML;
+//                    }
+//                    attributeNode = format.getAttributeNodeNS(doc.DocumentElement, uri , 'type');
+//                    console.log( attributeNode);
+//                },
+//                failure: function(request){
+//                    console.log('load failure');
+//
+//                },
+//                async:false
+//        });
+//        
+//        
+//        //************
+         if(capaNueva == false) //solo una edicion
          {  
             //transaccion ajax para guardar datos editados
             var info_capa = {
@@ -659,7 +641,7 @@ function guardarCapas()
                     capa_base:$('#base_layer').is(':checked'),
                     transparente:$('#transparent').is(':checked'),
                     seleccionable:$('#select_control').is(':checked'),
-                    type:tipo_geometria_upper
+                    type:$('#tipo_wfs option[selected="selected"]').val()
             };
 
             var mensaje_guardando = new Array(); 
@@ -728,7 +710,7 @@ function guardarCapas()
                     capa_base:$('#base_layer').is(':checked'),
                     transparente:$('#transparent').is(':checked'),
                     seleccionable:$('#select_control').is(':checked'),
-                    type_wfs:tipo_geometria_upper
+                    type_wfs:$('#tipo_wfs').selectmenu( "option" )
             };
 
             var mensaje_guardando = new Array(); 
@@ -783,50 +765,11 @@ function guardarCapas()
          
       }
       else{
-           mensajeAtencion("Atenc韔n!", "Por favor corrija los campos e intente nuevamente");
+           mensajeAtencion("Atenci贸n!", "Por favor corrija los campos e intente nuevamente");
       }
 
     
 }
-
-
-function getTipoGeometria(nombre_capa)
-{
-
-    var resultado = "";
-    
-    $.ajax({
-        type: "GET",
-        url: "/geoserver/wfs",
-        async: false,
-        data: "service=wfs&version=2.0.0&request=GetPropertyValue&typeNames=IDESF:"+nombre_capa+"&valueReference=the_geom&count=2",
-        success:function(msg) {
-            
-                    var result = msg.getElementsByTagName("ExceptionReport");
-                    
-                    if(result.length === 0)
-                    {
-                        var tipo_geometria  = msg.getElementsByTagName("the_geom")[0].childNodes[0].tagName;
-        
-                        var la_geometria = tipo_geometria.split(":")[1];
-        
-                        resultado = la_geometria;
-                    
-                    }
-                    else
-                    {   
-                        resultado = "";
-                    }
-                },
-        error: function() {
-                resultado = "";
-        },
-        dataType: "xml"
-    });
-      
-    return resultado;
-}
-
 
 function delCapa(btn,text)
 {
@@ -858,7 +801,7 @@ function delCapa(btn,text)
                     mensajeExito("Capa eliminada","La capa se elimino correctamente.");
                     mensaje_eliminando[0].remove();
                     $('li#'+id_capa).remove();
-                    limpiarDatosInfoCapa();
+                     limpiarDatosInfoCapa();
                     
                 }
                 else
@@ -943,8 +886,7 @@ function agregaNuevaCapa(btn, text)
                $('#editar_capa').button('enable'); //habilito el edicion en modo cancel
                toggleStatus($("#tabla_datos td input" ),true);//habilito edicion de campos
                $('#numZoomLevels').spinner('enable');
-               $('#estilo_wfs').attr("disabled","disabled");
-               $('#version_wfs').attr("disabled","disabled");
+               $('#tipo_wfs').selectmenu('enable');
                toggleEnEdicion($('li#'+$('#id_capa').val()), true); //marco la nueva capa como en edicion
                $('#lista_capas').animate({
                     scrollTop: $('#lista_capas li#'+id).position().top }, 'slow');
@@ -972,7 +914,7 @@ function guardarCambiosCapas()
     if(id_usuario == -1)
     {
         $.pnotify_remove_all();
-        mensajeInformativo("Atencion","Por favor seleccione un usuario");
+        mensajeInformativo("Atenci贸n","Por favor seleccione un usuario");
     }
     else{
         
@@ -1047,7 +989,10 @@ $(document).ready(function() {
     $.pnotify.defaults.delay = 1500;
     $('#numZoomLevels').spinner( { min: 1 , max:25});
     $('#numZoomLevels').spinner('disable');
-      
+    
+    $('#tipo_wfs').selectmenu();
+    $('#tipo_wfs').selectmenu('disable');
+    
     var availableTagsWms = [
       "1.0.0",
       "1.1.0",
@@ -1100,7 +1045,7 @@ $(document).ready(function() {
         if(id_usuario == -1)
         {
             $.pnotify_remove_all();
-            mensajeInformativo("Atencion","Seleccione un usuario");
+            mensajeInformativo("Atenci贸n","Seleccione un usuario");
         }
         else{
             
@@ -1140,7 +1085,7 @@ $(document).ready(function() {
                     else
                     {
                         mensajeDisp[0].remove(); 
-                        mensajeInformativo("Atenci髇", "No hay capas para asociar");
+                        mensajeInformativo("Atenci贸n", "No hay capas para asociar");
                         
                     }
                         
@@ -1190,7 +1135,7 @@ $(document).ready(function() {
                    else
                    {
                        mensajeAso[0].remove(); 
-                       mensajeInformativo("Atenci髇", "No hay capas asociadas");
+                       mensajeInformativo("Atenci贸n", "No hay capas asociadas");
                    }
 
                    },
@@ -1293,6 +1238,7 @@ $("#editar_capa").on('click',function(){
              });
              toggleStatus($( "#tabla_datos td input" ),false);//deshabilito edicion
              $('#numZoomLevels').spinner('disable');
+             $('#tipo_wfs').selectmenu({ disabled: true });
              $( "#guarda_capa" ).button('disable');
              toggleEnEdicion($('li#'+$('#id_capa').val()), false); //desmarco fila en edicion
         }
@@ -1314,7 +1260,7 @@ $("#editar_capa").on('click',function(){
         //borrarCapa
         Ext.MessageBox.buttonText.yes = "Si";
         Ext.MessageBox.buttonText.no = "No";
-        Ext.MessageBox.confirm('Atenci?n!', '?Esta seguro que desea eliminar la capa?',delCapa);
+        Ext.MessageBox.confirm('Atenci贸n!', '?Esta seguro que desea eliminar la capa?',delCapa);
 
      }); 
 

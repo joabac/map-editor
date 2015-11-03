@@ -13,7 +13,7 @@
 ?>
 
 <head>
-	<meta charset=ISO-8859-1>
+	<meta charset=UTF-8>
         <title>Editor de mapas IDESF</title>
         <!-- Import OL CSS, auto import does not work with our minified OL.js build -->
         <!--link rel="stylesheet" type="text/css" href="OpenLayers/theme/default/style.css"/ -->
@@ -22,6 +22,7 @@
         <script src="ext-3.4.0/adapter/ext/ext-base.js" type="text/javascript"></script>
         <script src="ext-3.4.0/ext-all.js"  type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="ext-3.4.0/resources/css/ext-all.css"></link>
+        <link rel="stylesheet" type="text/css" href="ext-3.4.0/resources/css/xtheme-sf_theme.css"></link>
      
         <script type="text/javascript" src="js/jquery-ui/external/jquery/jquery.js"></script>
         <link type="text/css" href="js/jquery-ui/jquery-ui.min.css" rel="Stylesheet" />
@@ -36,9 +37,12 @@
 	<script type="text/javascript" src="loguin/md5.js"></script>
         <script type="text/javascript" src="js/sha1.js"></script>
      
-	 <div id="logos">
-		 <img src="img/provincia_logo.png" id="logo" border="0" style="margin:0 11px" alt="Bienvenido editor de mapas del IDESF Gobierno de la Provincia de Santa Fe">
-	 </div>
+	<div id="logos">
+             <img src="img/logo_idesf.png" class="logo_idesf" alt=""><img src="img/gob-santafe.png" id="logo_provincia" alt="Bienvenido editor de mapas del IDESF Gobierno de la Provincia de Santa Fe">
+	</div>
+        <div class="cortina"></div>
+
+<!--         <img src="img/logo_idesf.png" id="logo_idesf" alt="IDESF - Infraestructura de datos Espaciales Provincia de Santa Fe."/>-->
 	 <script type="text/javascript">
        Ext.BLANK_IMAGE_URL = 'images/s.gif';
        
@@ -57,7 +61,7 @@
              xtype: 'textfield',
              width: 190,
              id: 'password',
-             fieldLabel: 'Contraseña',
+             fieldLabel: 'ContraseÃ±a',
              inputType: 'password',
              submitValue: false
            },{
@@ -65,10 +69,17 @@
              id: 'challenge',
              value: "<?php echo $challenge; ?>",
              submitValue: false
-           }],
-           buttons: [   
+           } ],
+           buttons: [ 
+                    {
+                        id: 'logo_ide',
+                        width: 50,
+                        height:50,
+                        html:  '<img src="img/logo_idesf.png" id="logo_idesf" alt="IDESF - Infraestructura de datos Espaciales Provincia de Santa Fe."/>'
+                    } ,  
 		   {
              text: 'Login',
+             width:60,
              handler: function(){
                if(Ext.getCmp('username').getValue() !== '' && Ext.getCmp('password').getValue() !== ''){
                    // crypt();
@@ -95,23 +106,24 @@
                }else{
                  Ext.MessageBox.show({
                    title: 'Error',
-                   msg: 'Por favor ingrese Usuario y Contraseña',
+                   msg: 'Por favor ingrese Usuario y ContraseÃ±a',
                    buttons: Ext.Msg.OK,
                    icon: Ext.MessageBox.ERROR
                  });
                }
              }
            }
+           
 		   ]
          });
          var loginWindow = new Ext.Window({
            title: 'Login',
            layout: 'fit',
            closable: false,
-           resizable: false,
+           resizable: true,
            draggable: false,
            border: false,
-           height: 125,
+           height: 155,
            width: 300,
 		   ctCls: 'fondo',
            items: [loginForm]

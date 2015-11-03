@@ -15,6 +15,7 @@ $port_loguin = 5432;
 $host_loguin = '192.168.0.101';
 $strCnx_loguin = "host=$host_loguin port=$port_loguin dbname=$db_loguin user=$user_loguin password=$passwd_loguin";
 
+
 $user_layers = 'usuario';
 $passwd_layers = 'usuario';
 $db_layers = 'wfs_layers';

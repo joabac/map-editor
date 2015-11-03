@@ -1,6 +1,6 @@
 <?php
 
-
+//TODO reemplazar por un switch
 $resultado = $_REQUEST['Parametro'];
 
 
@@ -56,6 +56,30 @@ if($resultado == 'guardaCapaEdicion')
     return guardaCapaEdicion(); 
 }
 
+if($resultado == 'guardaEstilo')
+{
+    $user_name = $_REQUEST['user_name'];
+    $id_capa_estilo = $_REQUEST['id_capa'];
+    $estilo = $_REQUEST['estilo'];
+    return guardaEstiloEdicion($user_name,$id_capa_estilo,$estilo); 
+}
+
+if($resultado == 'getEstilo')
+{
+    $user_name = $_REQUEST['user_name'];
+    $id_capa_estilo = $_REQUEST['id_capa'];
+    
+    return getEstilo($user_name,$id_capa_estilo); 
+}
+
+if($resultado == 'getCapaLimite')
+{
+    $user_name = $_REQUEST['user_name'];
+    $id_capa_estilo = $_REQUEST['id_capa'];
+    
+    return getCapaLimite($user_name,$id_capa_estilo); 
+}
+
 if($resultado == 'borrarCapa')
 {
     $id_capa = $_REQUEST['id_capa'];
@@ -67,6 +91,21 @@ if($resultado == 'getTipoCapa')
     $nombre_capa = $_REQUEST['nombre_capa'];
     return getTipoCapa($nombre_capa); 
 }
+
+if($resultado == 'getPerfil')
+{
+    $user_name = $_REQUEST['user_name'];
+    return getPerfil($user_name); 
+}
+
+if($resultado == 'setPerfil')
+{
+    $user_name = $_REQUEST['user_name'];
+    $perfil = $_REQUEST['perfil'];
+    return setPerfil($user_name,$perfil); 
+}
+else
+   return;
 
 
 function isAdmin($email){
@@ -101,7 +140,7 @@ function isAdmin($email){
                     
 }
 
-function getUsers()
+function getUnUsuario($email)
 {        
         include("../conn.php");
         $db_handle = pg_connect($strCnx_loguin);
@@ -111,25 +150,20 @@ function getUsers()
         if ($db_handle) 
         {
 
-           $query2 = "SELECT id_usuario, email FROM usuarios;"; 
+           $query2 = "SELECT id_usuario FROM usuarios WHERE email like '".$email."';"; 
            $result2 = pg_query($db_handle,$query2);
            if($result2){
  
                 while ($row = pg_fetch_row($result2))
                 {
-                     $bus = array(
-                        'id_usuario' => $row[0],
-                        'email' => $row[1]
-                    );
-                    array_push($json, $bus);
+                     
+                    return $row[0];
+                    
                 }
-
-                $jsonstring = json_encode($json);
-                echo $jsonstring;
           }
           else
           {
-              echo "{}";
+              return -1;
           }
         }
 }
@@ -346,8 +380,176 @@ function guardarCapas($id_user,$capasWms,$capasWfs)
                 echo '{"success":false,"message":"'.$mensaje.'"}';
                 exit;
             }
+}
+
+
+//TODO: actualizar estilos en base de datos por capa por usuario
+function guardaEstiloEdicion($email,$id_capa_estilo,$estilo)
+{
+
+    include("../conn.php");
+        $db_handle = @pg_connect($strCnx);
+        
+        $id_usuario = getUnUsuario($email);
+
+        //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+        
+        if ($db_handle) 
+        {
+            
+           $query2 = "DELETE FROM estilo_x_capa_x_usuario WHERE id_usuario = ".$id_usuario." and id_capa = ".$id_capa_estilo.";";
+           
+           
+//           $query2 .=" INSERT INTO estilo_x_capa_x_usuario(id_usuario, id_capa,estilo) VALUES (".$id_usuario.", ".$id_capa_estilo.", ".$estilo.");";
+           
+           $query2 .=" INSERT INTO estilo_x_capa_x_usuario(id_usuario, id_capa,estilo_json) VALUES (".$id_usuario.", ".$id_capa_estilo.",'".$estilo."');";
+           $result2 = @pg_query($db_handle,$query2);
+           
+           if($result2)
+           {
+               echo '{"success":true}';
+               exit;
+           }
+           else
+           {
+                $mensaje = "Error al guardar el estilo.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+           }
+           
+        }
+        else
+            {
+                $mensaje = "Error al conectar con base de datos.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+            }
+}
+
+
+//get  estilos de la base de datos por capa por usuario
+function getEstilo($email,$id_capa_estilo)
+{
     
-   
+    include("../conn.php"); 
+    
+        $json = Array();
+    
+        $db_handle = @pg_connect($strCnx);
+        
+        $id_usuario = getUnUsuario($email);
+
+        //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+        
+        if ($db_handle) 
+        {
+           
+           $query2 ="SELECT estilo_json FROM estilo_x_capa_x_usuario WHERE id_usuario = (select id_usuario from usuarios where email like '".$email."') and id_capa=".$id_capa_estilo.";";
+           $result2 = @pg_query($db_handle,$query2);
+           
+           if($result2){
+               
+               $row = pg_fetch_row($result2);
+                
+                if ($row){
+                    
+                        $bus = array(
+                            'estilo' => $row[0]
+                        );
+                        
+                        array_push($json, $bus);
+                
+
+                        $jsonstring = json_encode($json);
+                        echo $jsonstring;
+                }
+                else 
+                {
+                    echo '{"success":false}';
+                    
+                }
+                
+          }
+          else
+          {
+              echo '{"success":false}';
+          }
+           
+        }
+        else
+            {
+                $mensaje = "Error al conectar con base de datos.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+            }
+}
+
+
+//get  estilos de la base de datos por capa por usuario
+function getCapaLimite($email,$id_capa_estilo)
+{
+    
+    include("../conn.php"); 
+    
+        $json = Array();
+    
+        $db_handle = @pg_connect($strCnx);
+        
+        $id_usuario = getUnUsuario($email);
+
+        //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+        
+        if ($db_handle) 
+        {
+           
+           $query2 ="SELECT poligonos_geojson,resolucion_permitida FROM limites_x_capa_x_usuario WHERE id_usuario = (select id_usuario from usuarios where email like '".$email."') and id_capa=".$id_capa_estilo.";";
+           $result2 = @pg_query($db_handle,$query2);
+           
+           if($result2){
+               
+               $row = pg_fetch_row($result2);
+                
+                if ($row){
+                    
+                        $bus = array(
+                            'limite' => $row[0],
+                            'resolucion_permitida' => $row[1]
+                        );
+                        
+                        array_push($json, $bus);
+                
+
+                        $jsonstring = json_encode($json);
+                        echo $jsonstring;
+                }
+                else 
+                {
+                    $bus = array(
+                        'limite' => '',
+                        'resolucion_permitida' => -1
+                    );
+
+                    array_push($json, $bus);
+
+
+                    $jsonstring = json_encode($json);
+                    echo $jsonstring;
+                    
+                }
+                
+          }
+          else
+          {
+              echo '{"success":false}';
+          }
+           
+        }
+        else
+            {
+                $mensaje = "Error al conectar con base de datos.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+            }
 }
 
 function guardaCapaNueva()
@@ -579,5 +781,89 @@ function getTipoCapa($getTipoCapa){
         }
 }
         
+function getPerfil($user_name){
+    
 
+        include("../conn.php");
+        $db_handle = pg_connect($strCnx);
+        
+        $json = Array();
+        
+        if ($db_handle) 
+        {
+
+
+           $query2 = "SELECT nombre,apellido,email,usuario,admin,avatarfile FROM usuarios WHERE email LIKE '".$user_name."'"; 
+           $result2 = pg_query($db_handle,$query2);
+           if($result2){
+ 
+                while ($row = pg_fetch_row($result2))
+                {
+                     $bus = array(
+                        'nombre' => $row[0],
+                        'apellido' => $row[1],
+                        'email' => $row[2],
+                        'usuario' => $row[3],
+                        'admin' => $row[4] ,
+                        'avatarfile' => $row[5]
+                    );
+                    array_push($json, $bus);
+                }
+
+                $jsonstring = json_encode($json);
+                echo $jsonstring;
+          }
+          else
+          {
+              echo '{"success":false,"message":"'.$mensaje.'"}';
+              exit;
+          }
+        }
+        
+       
+}
+
+function setPerfil($user_name,$perfil)
+{
+        include("../conn.php");
+        $db_handle = @pg_connect($strCnx);
+        
+        $id_usuario = getUnUsuario($user_name);
+
+        //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+        
+        $perfil_json = json_decode($perfil);
+        
+        
+        if ($db_handle) 
+        {
+            
+           $query2 = "UPDATE usuarios SET nombre='".$perfil_json->nombre."', apellido='".$perfil_json->apellido."', avatarfile='".$perfil_json->avatarfile."' WHERE usuarios.id_usuario=".$id_usuario.";";
+           //and id_capa = ".$id_capa_estilo.";";
+           
+           
+//           $query2 .=" INSERT INTO estilo_x_capa_x_usuario(id_usuario, id_capa,estilo) VALUES (".$id_usuario.", ".$id_capa_estilo.", ".$estilo.");";
+           
+           $result2 = @pg_query($db_handle,$query2);
+           
+           if($result2)
+           {
+               echo '{"success":true}';
+               exit;
+           }
+           else
+           {
+                $mensaje = "Error al guardar el perfil.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+           }
+           
+        }
+        else
+            {
+                $mensaje = "Error al conectar con base de datos.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+            }
+}
 ?>

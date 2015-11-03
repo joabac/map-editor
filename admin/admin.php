@@ -1,11 +1,12 @@
-<?php 
- // require("../loguin/common.php");
+<?php
+  require("../loguin/common.php");
 
-  //require_authentication();
+  require_authentication();
 
 ?>
 
 <head>
+<meta charset="UTF-8">
 <title>Back Office Editor de Mapas - IDESF</title>
 <script type="text/javascript" src="../js/jquery-ui/external/jquery/jquery.js"></script>
 <link type="text/css" href="../js/jquery-ui/jquery-ui.min.css" rel="Stylesheet" />
@@ -74,7 +75,7 @@
         <td><input name="nombre_capa" type="text" id="nombre_capa"  disabled="disabled"/></td>
         </tr>
         <tr>
-        <td><label for="nombre_fantasia">Nombre Fantasia: </label></td>
+        <td><label for="nombre_fantasia">Nombre Fantasía: </label></td>
         <td><input type="text" name="nombre_fantasia" id="nombre_fantasia" disabled="disabled"/></td>
         </tr>
         <tr>
@@ -90,7 +91,23 @@
         <td><input  type="text" name="nivel_de_arbol" id="nivel_de_arbol" disabled="disabled"/></td>
         </tr>
         <tr>
-        <td><label for="singleTile">Mosaico unico:</label> </td>
+        <td ><label for="estilo_wms">Estilo WMS: </label></td>
+        <td><input  type="text" name="estilo_wms" id="estilo_wms" disabled="disabled"/></td>
+        </tr>
+        <tr>
+        <td ><label for="version_wms">Version WMS: </label></td>
+        <td><input  type="text" name="version_wms" id="version_wms" disabled="disabled"/></td>
+        </tr>
+        <tr>
+        <td ><label for="version_wfs">Version WFS: </label></td>
+        <td><input  type="text" name="version_wfs" id="version_wfs" disabled="disabled"/></td>
+        </tr>
+        <tr>
+        <td><label for="estilo_wfs">Estilo WFS:</label> </td>
+        <td><input type="text" name="estilo_wfs" id="estilo_wfs" disabled="disabled"/></td>
+        </tr>
+        <tr>
+        <td><label for="singleTile">Mosaico único:</label> </td>
         <td><input type="checkbox" name="singleTile" id="singleTile" disabled="disabled"/></td>
         </tr>
         <tr>
@@ -110,44 +127,24 @@
         <td><input type="checkbox" name="select_control" id="select_control" disabled="disabled"/></td>
         </tr>
         <tr>
-        <td ><label for="estilo_wms">Estilo WMS: </label></td>
-        <td><input  type="text" name="estilo_wms" id="estilo_wms" disabled="disabled"/></td>
-        </tr>
-        <tr>
-        <td ><label for="version_wms">Version WMS: </label></td>
-        <td><input  type="text" name="version_wms" id="version_wms" disabled="disabled"/></td>
-        </tr>
-        <tr>
-        <td><label for="wfs_layer_check">Capa WFS: </label></td>
-        <td><input type="checkbox" name="wfs_layer_check" id="wfs_layer_check" disabled="disabled"/></td>
-        </tr>
-        <tr>
-        <td ><label for="version_wfs">Version WFS: </label></td>
-        <td><input  type="text" name="version_wfs" id="version_wfs" disabled="disabled"/></td>
-        </tr>
-        <tr>
-        <td><label for="estilo_wfs">Estilo WFS:</label> </td>
-        <td><input type="text" name="estilo_wfs" id="estilo_wfs" disabled="disabled"/></td>
-        </tr>
-        <!--tr>        
         <td><label for="tipo_wfs">Tipo de Capa: </label></td>
         <td>
             <fieldset id="feature_type">
                 <label for="tipo_wfs"></label>
                 <select name="tipo_wfs" id="tipo_wfs">
-                    <option value="WMS" selected>WMS</option>
-                    <option value="POINT" >PUNTOS</option>
-                    <option value="LINESTRING" >POLILINEAS</option>
-                    <option value="POLYGON" >POLIGONOS</option>
+                    <option value="POINT" selected="selected" data-class="point">PUNTOS</option>
+                    <option value="LINESTRING" data-class="line">POLILINEAS</option>
+                    <option value="POLYGON" data-class="polygon">POLIGONOS</option>
                 </select>  
             </fieldset>
         </td>
-        </tr-->
+        </tr>
     </table> 
 </fieldset>
 
 </form>
     <div class="barra_botones_right">
+        <button id="btnTest_Capa" title="Test Capa" style="margin-top: 3px;">Test Capa</button>
         <button id="editar_capa" title="Editar capa actual" style="margin-top: 3px;">Editar</button>
         <button id="guarda_capa" title="Guardar cambios realizados" style="margin-top: 3px;">Guardar</button>
     </div>
@@ -175,7 +172,7 @@
         <ul id="left-lista">
            
         </ul>
-        <a class="btn" id="add" style="margin-top: 3px">A�adir todo</a>
+        <a class="btn" id="add" style="margin-top: 3px">Añadir todo</a>
     </div>
 
     <div class="right">

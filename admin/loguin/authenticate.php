@@ -49,13 +49,13 @@ try{
     } 
     else
     {
-          $mensaje = 'Error en coneccion a DB';
+          $mensaje = 'Error en conexión a DB';
           return false;
     }
 }
 catch(Exception $e)
 {
-    $mensaje = 'Error en coneccion a DB';
+    $mensaje = 'Error en conexión a DB';
     return false;
 }
 }

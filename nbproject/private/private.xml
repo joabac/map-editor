@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="16">
+        <file>
+            <url>js/mapa_noOficial.js</url>
+            <bookmark id="16">
+                <name/>
+                <line>2794</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/wamp/www/map_viewer/css/estilo.css</file>
+            <file>file:/C:/wamp/www/map_viewer/index_noOficial.php</file>
+            <file>file:/C:/wamp/www/map_viewer/admin/admin.php</file>
+            <file>file:/C:/wamp/www/map_viewer/ext-3.4.0/resources/css/ext-all.css</file>
+            <file>file:/C:/wamp/www/map_viewer/scripts/utiles.php</file>
+            <file>file:/C:/wamp/www/map_viewer/ext-3.4.0/resources/css/xtheme-sf_theme.css</file>
+            <file>file:/C:/wamp/www/map_viewer/js/mapa_noOficial.js</file>
+            <file>file:/C:/wamp/www/map_viewer/ext-3.4.0/ext-all.js</file>
+            <file>file:/C:/wamp/www/map_viewer/ext-3.4.0/resources/images/gray/icons.png</file>
+        </group>
     </open-files>
 </project-private>

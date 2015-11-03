@@ -29324,8 +29324,8 @@ OpenLayers.Tile = OpenLayers.Class({
      * {Boolean} Whether or not the tile should actually be drawn.
      */
     shouldDraw: function() {        
-        var withinMaxExtent = false,
-            maxExtent = this.layer.maxExtent;
+        var withinMaxExtent = false;
+        var maxExtent = this.layer.maxExtent;
         if (maxExtent) {
             var map = this.layer.map;
             var worldBounds = map.baseLayer.wrapDateLine && map.getMaxExtent();
@@ -41442,7 +41442,12 @@ OpenLayers.Rule = OpenLayers.Class({
         var applies = true;
 
         if (this.minScaleDenominator || this.maxScaleDenominator) {
-            var scale = feature.layer.map.getScale();
+            if( feature.layer != null)
+                var scale = feature.layer.map.getScale();
+            else
+            {
+                editingLayer.map.getScale();
+            }
         }
         
         // check if within minScale/maxScale bounds

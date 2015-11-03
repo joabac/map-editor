@@ -14,30 +14,46 @@
 <meta charset=ISO-8859-1>
 <title>test</title>
 
-<!--script type="text/javascript"> 
+<script type="text/javascript"> 
  
-       /* var password = "10153214";
-	//var salt = "$2a$10$9iothHH3t0npBXWyckmeXe";
-	var bcrypt = new bCrypt();
-        var output = "";
-
-        var salt;
-	
-        salt = bcrypt.gensalt(16);
-		
-
-	function result(newhash){
-                output = newhash;
-		document.write(output);
-	}
-	bcrypt.hashpw(password, salt, result, function() {});
+       
         
-        */
-       hash = hex_sha1("10153214"); /* SHA-1 */
-        document.write(hash);
+  
+      
+        //si exito limpiar form resfrescar listado
+        var id_capa_estilo = 2;
+       
 
+        
+            var parametros = {Parametro:'guardaEstilo',id_capa:id_capa_estilo,user_name:"joabac@gmail.com"};
 
-</script-->
+            $.ajax({
+                    type: "POST",
+                    url: "scripts/utiles.php",
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(msg) {
+                        if(msg.success)
+                        {
+                            mensajeExito("Estilo guardado","El estilo de la capa se guardo correctamente.");
+                            mensaje_salvaEstilos[0].remove();
+
+                        }
+                        else
+                        {
+                            mensajeError("Error", "Error al guardar el estilo");
+                            mensaje_salvaEstilos[0].remove();
+                        }
+                    },
+                    error: function() {
+                        mensaje_salvaEstilos[0].remove();
+                        mensajeError("Error", "Error al guardar el estilo");
+                    },
+                    data: parametros
+                });
+        
+
+</script
 
 </head>
 <body>
